@@ -22,7 +22,7 @@ export default function Home() {
               {post.title}
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              author: {post.author}
+              author id: {post.authorId}
             </Typography>
             <Typography variant="body2">{post.description}</Typography>
           </CardContent>

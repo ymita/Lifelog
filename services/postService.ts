@@ -2,9 +2,9 @@ import { Post } from "../models/post"
 
 export async function getPosts(): Promise<Post[]> {
     const posts = new Array<Post>();
-    posts.push({id: "001", title: "My First Post", description: "Here is the content...", author: 1});
-    posts.push({id: "002", title: "My Second Post", description: "Here is the content...", author: 2});
-    posts.push({id: "003", title: "My Third Post", description: "Here is the content...", author: 3});
+    posts.push({id: 1, title: "My First Post", description: "Here is the content...", authorId: 1});
+    posts.push({id: 2, title: "My Second Post", description: "Here is the content...", authorId: 1});
+    posts.push({id: 3, title: "My Third Post", description: "Here is the content...", authorId: 2});
     
     
     //#region Code to get data from Firestore
