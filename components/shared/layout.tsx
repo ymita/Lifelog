@@ -1,5 +1,6 @@
 import { Box, AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
+import Link from "next/link";
 
 type Props = {
   children: React.ReactNode;
@@ -21,7 +22,9 @@ export default function Layout({ children }: Props) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Lifelog
+              <Link href="/">
+                Lifelog
+              </Link>
             </Typography>
             <Button color="inherit">Login</Button>
           </Toolbar>
