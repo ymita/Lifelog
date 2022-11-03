@@ -1,14 +1,23 @@
 import Link from "next/link";
+import { usePosts } from "../hooks/usePosts";
+import { Post } from "../models/post";
 
 export default function Home() {
+  const { isLoading, posts } = usePosts();
+  if (isLoading) return <p>Loading...</p>;
+
   return (
-    <div>
-      <h1>
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
-      </h1>
+    <>
+      <ul>
+        {posts.map((post: Post) => (
+          <li key={post.id}>
+            {post.title} / {post.author} / {post.description}
+          </li>
+        ))}
+      </ul>
       <div>
         <Link href="/about">About</Link>
       </div>
-    </div>
+    </>
   );
 }
