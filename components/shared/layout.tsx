@@ -33,7 +33,6 @@ export default function Layout({ children }: Props) {
       <main>
         <main>{children}</main>
       </main>
-      <div>footer</div>
     </div>
   );
 }
