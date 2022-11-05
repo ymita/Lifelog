@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Post } from '../models/post'
-import { getAuthors, getPosts } from '../services/postService'
-import { PostViewModel } from '../viewmodels/postViewModel';
+import { getPostViewModels } from '../services/postService'
+import { PostViewModel } from '../models/postViewModel';
 
 export type UsePostsOutput = {
   isLoading: boolean;
@@ -18,15 +17,7 @@ export function usePosts(): UsePostsOutput {
 
   useEffect(() => {
     void (async () => {
-      const posts = await getPosts();
-      const authors = await getAuthors();
-      const postViewModels: PostViewModel[] = [];
-
-      posts.forEach(post => {
-        const authorName = authors.find(author => post.authorId === author.id)?.name as string;
-        postViewModels.push({...post, authorName: authorName});
-      });
-  
+      const postViewModels = await getPostViewModels();
       setOutput({ isLoading: false, postViewModels: postViewModels });
     })()
   }, [])

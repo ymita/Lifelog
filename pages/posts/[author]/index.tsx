@@ -6,11 +6,20 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import { usePosts } from "../hooks/usePosts";
-import { PostViewModel } from "../models/postViewModel";
+import { useRouter } from "next/router";
+import { usePosts } from "../../../hooks/usePosts";
+import { PostViewModel } from "../../../models/postViewModel";
+// import { usePosts } from "../../hooks/usePosts";
+// import { PostViewModel } from "../../viewmodels/postViewModel";
+// import { usePosts } from "../hooks/usePosts";
+// import { PostViewModel } from "../viewmodels/postViewModel";
 
 export default function Home() {
-  const { isLoading, postViewModels } = usePosts();
+  
+  const router = useRouter();
+  const { author } = router.query;
+
+  const { isLoading, postViewModels: postViewModels } = usePosts();
   if (isLoading) return <p>Loading...</p>;
 
   return (
@@ -18,8 +27,7 @@ export default function Home() {
       {postViewModels.map((postViewModel: PostViewModel) => (
         <Card
           key={postViewModel.id}
-          sx={{ minWidth: 275, border: "1px solid lightgray", margin: "1rem" }}
-        >
+          sx={{ minWidth: 275, border: "1px solid lightgray", margin: "1rem" }}>
           <CardContent>
             <Typography variant="h5" component="div">
               {postViewModel.title}
@@ -30,19 +38,13 @@ export default function Home() {
             <Typography variant="body2">{postViewModel.description}</Typography>
           </CardContent>
           <CardActions>
-            <Link href={"/posts/" + postViewModel.authorName}>
-              <Button size="small">
-                Read More
-                </Button>
-            </Link>
+            <Button size="small">Read More</Button>
           </CardActions>
         </Card>
       ))}
+
       <div>
         <Link href="/about">About</Link>
-      </div>
-      <div>
-        <Link href="/posts">Posts</Link>
       </div>
     </>
   );
