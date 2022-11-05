@@ -41,9 +41,6 @@ export default function Home() {
       <div>
         <Link href="/about">About</Link>
       </div>
-      <div>
-        <Link href="/posts">Posts</Link>
-      </div>
     </>
   );
 }
