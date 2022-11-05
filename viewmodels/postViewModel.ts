@@ -1,6 +1,6 @@
-export interface Post {
+export interface PostViewModel {
   id: string;
   title: string;
   description: string;
-  authorId: number;
+  authorName: string;
 }

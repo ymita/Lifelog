@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Post } from '../models/post'
-import { getPosts } from '../services/postService'
+import { getAuthors, getPosts } from '../services/postService'
+import { PostViewModel } from '../viewmodels/postViewModel';
 
 export type UsePostsOutput = {
-  isLoading: boolean
-  posts: Post[]
+  isLoading: boolean;
+  postViewModels: PostViewModel[];
 }
 
 const DEFAULT_OUTPUT: UsePostsOutput = {
   isLoading: true,
-  posts: [],
+  postViewModels: [],
 }
 
 export function usePosts(): UsePostsOutput {
@@ -17,8 +18,16 @@ export function usePosts(): UsePostsOutput {
 
   useEffect(() => {
     void (async () => {
-      const posts = await getPosts()
-      setOutput({ isLoading: false, posts: posts })
+      const posts = await getPosts();
+      const authors = await getAuthors();
+      const postViewModels: PostViewModel[] = [];
+
+      posts.forEach(post => {
+        const authorName = authors.find(author => post.authorId === author.id)?.name as string;
+        postViewModels.push({...post, authorName: authorName});
+      });
+  
+      setOutput({ isLoading: false, postViewModels: postViewModels });
     })()
   }, [])
 
