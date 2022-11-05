@@ -4,14 +4,14 @@ import { Post } from "../models/post";
 import { app } from "../utils/firebase/init";
 import { PostViewModel } from "../models/postViewModel";
 
-export const getAuthors = async (): Promise<Author[]> => {
+const getAuthors = async (): Promise<Author[]> => {
   const db = getFirestore(app);
   const authorsSnapshot = await getDocs(collection(db, "/authors"));
   const authors = authorsSnapshot.docs.map((doc) => doc.data()) as Author[];
   return authors;
 };
 
-export const getPosts = async (): Promise<Post[]> => {
+const getPosts = async (): Promise<Post[]> => {
   const db = getFirestore(app);
   const postsSnapshot = await getDocs(collection(db, "/posts"));
   const posts = postsSnapshot.docs.map((doc) => doc.data()) as Post[];
