@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getPostViewModels } from '../services/postService'
+import { getPostViewModels, getPostViewModelsByAuthor } from '../services/postService'
 import { PostViewModel } from '../models/postViewModel';
 
 export type UsePostsOutput = {
@@ -12,12 +12,12 @@ const DEFAULT_OUTPUT: UsePostsOutput = {
   postViewModels: [],
 }
 
-export function usePosts(): UsePostsOutput {
+export function usePosts(author?: string): UsePostsOutput {
   const [output, setOutput] = useState(DEFAULT_OUTPUT)
 
   useEffect(() => {
     void (async () => {
-      const postViewModels = await getPostViewModels();
+      const postViewModels = await (!author ? getPostViewModels() : getPostViewModelsByAuthor(author.toString()));
       setOutput({ isLoading: false, postViewModels: postViewModels });
     })()
   }, [])

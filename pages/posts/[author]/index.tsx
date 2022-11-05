@@ -9,17 +9,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { usePosts } from "../../../hooks/usePosts";
 import { PostViewModel } from "../../../models/postViewModel";
-// import { usePosts } from "../../hooks/usePosts";
-// import { PostViewModel } from "../../viewmodels/postViewModel";
-// import { usePosts } from "../hooks/usePosts";
-// import { PostViewModel } from "../viewmodels/postViewModel";
 
 export default function Home() {
-  
   const router = useRouter();
   const { author } = router.query;
 
-  const { isLoading, postViewModels: postViewModels } = usePosts();
+  //TODO: string cast を、よりスマートな表記に修正する。
+  const { isLoading, postViewModels } = usePosts(author as string);
   if (isLoading) return <p>Loading...</p>;
 
   return (
