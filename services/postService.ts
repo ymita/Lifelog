@@ -4,6 +4,16 @@ import { Post } from "../models/post";
 import { app } from "../utils/firebase/init";
 import { PostViewModel } from "../models/postViewModel";
 
+const getAuthor = async (name: string): Promise<Author> => {
+  const db = getFirestore(app);
+  const authorsRef = collection(db, "/authors");
+  const queryOfAuthor = query(authorsRef, where("name", "==", name));
+  const authorSnapshot = await getDocs(queryOfAuthor);
+  const author = (authorSnapshot.docs.map((doc) => doc.data()) as Author[])[0];
+  console.log(author);
+  return author;
+}
+
 // TODO: getAllAuthors() にする。
 const getAuthors = async (): Promise<Author[]> => {
   const db = getFirestore(app);
@@ -41,9 +51,7 @@ export const getPostViewModelsByAuthor = async (name: string): Promise<PostViewM
 
   // Create a query against the collection.
   //TODO: getAuthor() として切り出す。
-  const queryOfAuthor = query(authorsRef, where("name", "==", name));
-  const authorSnapshot = await getDocs(queryOfAuthor);
-  const author = (authorSnapshot.docs.map((doc) => doc.data()) as Author[])[0];
+  const author = await getAuthor(name);
 
   //TODO: getPostsByAuthor() として切り出す。
   const queryOfPosts = query(postsRef, where("authorId", "==", author.id));
