@@ -14,16 +14,24 @@ const getAuthor = async (name: string): Promise<Author> => {
   return author;
 }
 
-// TODO: getAllAuthors() にする。
-const getAuthors = async (): Promise<Author[]> => {
+const getPostsByAuthor = async (author: Author): Promise<Post[]> => {
+  const db = getFirestore(app);
+  const postsRef = collection(db, "/posts");
+  const queryOfPosts = query(postsRef, where("authorId", "==", author.id));
+  const postsSnapshot = await getDocs(queryOfPosts);
+  const postsByAuthor = postsSnapshot.docs.map((doc) => doc.data()) as Post[];
+  
+  return postsByAuthor;
+}
+
+const getAllAuthors = async (): Promise<Author[]> => {
   const db = getFirestore(app);
   const authorsSnapshot = await getDocs(collection(db, "/authors"));
   const authors = authorsSnapshot.docs.map((doc) => doc.data()) as Author[];
   return authors;
 };
 
-// TODO: getAllPosts() にする。
-const getPosts = async (): Promise<Post[]> => {
+const getAllPosts = async (): Promise<Post[]> => {
   const db = getFirestore(app);
   const postsSnapshot = await getDocs(collection(db, "/posts"));
   const posts = postsSnapshot.docs.map((doc) => doc.data()) as Post[];
@@ -31,8 +39,8 @@ const getPosts = async (): Promise<Post[]> => {
 };
 
 export const getPostViewModels = async (): Promise<PostViewModel[]> => {
-  const posts = await getPosts();
-  const authors = await getAuthors();
+  const posts = await getAllPosts();
+  const authors = await getAllAuthors();
   const postViewModels: PostViewModel[] = [];
 
   posts.forEach((post) => {
@@ -45,20 +53,11 @@ export const getPostViewModels = async (): Promise<PostViewModel[]> => {
 };
 
 export const getPostViewModelsByAuthor = async (name: string): Promise<PostViewModel[]> => {
-  const db = getFirestore(app);
-  const authorsRef = collection(db, "/authors");
-  const postsRef = collection(db, "/posts");
-
-  // Create a query against the collection.
   const author = await getAuthor(name);
-
-  //TODO: getPostsByAuthor() として切り出す。
-  const queryOfPosts = query(postsRef, where("authorId", "==", author.id));
-  const postsSnapshot = await getDocs(queryOfPosts);
-  const postsByAuthor = postsSnapshot.docs.map((doc) => doc.data()) as Post[];
+  const posts = await getPostsByAuthor(author);
 
   const postViewModels: PostViewModel[] = [];
-  postsByAuthor.forEach((post) => {
+  posts.forEach((post) => {
     postViewModels.push({ ...post, authorName: author.name });
   });
 
