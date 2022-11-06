@@ -24,7 +24,7 @@ export default function Home() {
             <Typography variant="h5" component="div">
               {postViewModel.title}
             </Typography>
-            <Link href={"/posts/" + postViewModel.authorName}>
+            <Link href={postViewModel.authorName + "/posts/"}>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 author: {postViewModel.authorName}
               </Typography>

@@ -7,8 +7,8 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { usePosts } from "../../../hooks/usePosts";
-import { PostViewModel } from "../../../models/postViewModel";
+import { usePosts } from "../../hooks/usePosts";
+import { PostViewModel } from "../../models/postViewModel";
 
 export default function Home() {
   const router = useRouter();
