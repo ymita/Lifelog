@@ -50,7 +50,6 @@ export const getPostViewModelsByAuthor = async (name: string): Promise<PostViewM
   const postsRef = collection(db, "/posts");
 
   // Create a query against the collection.
-  //TODO: getAuthor() として切り出す。
   const author = await getAuthor(name);
 
   //TODO: getPostsByAuthor() として切り出す。
